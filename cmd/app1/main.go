@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 
 	"github.com/koosie0507/pluralsight-go-concurrent-programming/data"
@@ -11,21 +12,26 @@ import (
 var cache = map[int]data.Book{}
 var rnd = rand.New(rand.NewSource(time.Now().UnixNano()))
 func main() {
+	wg := &sync.WaitGroup{}
 	for i:=0; i<10; i++ {
 		id := rnd.Intn(3) + 1
-		go func(id int) {
+		wg.Add(2)
+		go func(id int, wg *sync.WaitGroup) {
 			if b, ok := queryCache(id); ok {
 				fmt.Println("from cache")
 				fmt.Println(b)
 			}
-		}(id)
-		go func(id int) {
+			wg.Done()
+		}(id, wg)
+		go func(id int, wg *sync.WaitGroup) {
 			if b, ok := queryDb(id); ok {
 				fmt.Println("from db")
 				fmt.Println(b)
 			}
-		}(id)
+			wg.Done()
+		}(id, wg)
 	}
+	wg.Wait()
 }
 
 func queryCache(id int) (data.Book, bool) {
