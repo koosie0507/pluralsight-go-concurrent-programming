@@ -25,8 +25,6 @@ func main() {
 				fmt.Println(b)
 			}
 		}(id)
-		fmt.Println("book ID ", id, " not found")
-		time.Sleep(150 * time.Millisecond)
 	}
 }
 
