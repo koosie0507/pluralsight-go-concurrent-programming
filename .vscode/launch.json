@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "${workspaceFolder}/src/cmd/app1/"
+            "program": "${workspaceFolder}/cmd/app1/"
         }
     ]
 }
