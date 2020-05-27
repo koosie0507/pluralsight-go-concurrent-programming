@@ -46,7 +46,7 @@ func main() {
 			}
 			wg.Done()
 		}(cacheChan, dbChan, wg)
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(500 * time.Millisecond)
 	}
 	wg.Wait()
 }
@@ -59,7 +59,7 @@ func queryCache(id int, m *sync.RWMutex) (data.Book, bool) {
 }
 
 func queryDb(id int, m *sync.RWMutex) (data.Book, bool) {
-	time.Sleep(100 * time.Millisecond)
+	time.Sleep(time.Second)
 	for _, b := range data.Books {
 		if b.ID == id {
 			return b, true
